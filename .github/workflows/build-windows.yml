@@ -1,4 +1,4 @@
-name: Build Windows EXE
+name: Build Windows Setup
 on:
   push:
     branches: [master, main]
@@ -11,12 +11,23 @@ jobs:
       - uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '8.0.x'
-      - uses: microsoft/setup-msbuild@v2
-      - name: Build with VS MSBuild (dotnet CLI hides XamlCompiler errors; MSBuild surfaces them)
-        run: msbuild NovaControlCenter.csproj /restore /p:Configuration=Release /p:Platform=x64 /p:RuntimeIdentifier=win-x64 /v:normal
-      - name: Upload exe artifact
+      - name: Publish self-contained (bundles .NET 8; WinAppSDK self-contained in csproj)
+        run: dotnet publish NovaControlCenter.csproj -c Release -r win-x64 --self-contained true -o publish
+      - name: Download Windows App Runtime 1.6 installer (safety net for client PCs)
+        run: Invoke-WebRequest -Uri "https://aka.ms/windowsappsdk/1.6/1.6.250205002/windowsappruntimeinstall-x64.exe" -OutFile "installer/windowsappruntimeinstall-x64.exe"
+      - name: Install Inno Setup
+        run: choco install innosetup -y
+      - name: Build setup.exe
+        run: & "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" installer\NovaControlCenter.iss
+      - name: Upload setup artifact
         uses: actions/upload-artifact@v4
         with:
-          name: NovaControlCenter-win-x64
-          path: bin/x64/Release/net8.0-windows10.0.19041.0/win-x64/
+          name: NovaControlCenter-Setup
+          path: installer-output/NovaControlCenter-Setup-1.0.0.exe
+          if-no-files-found: error
+      - name: Upload self-contained app folder (fallback)
+        uses: actions/upload-artifact@v4
+        with:
+          name: NovaControlCenter-win-x64-selfcontained
+          path: publish/
           if-no-files-found: error

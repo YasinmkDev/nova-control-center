@@ -44,7 +44,14 @@ public sealed partial class DataPage : Page
     }
     private void Grid_Sorting(object sender, DataGridColumnEventArgs e)
     {
-        _sortProp = e.Column.SortMemberPath ?? "Id";
+        // NOTE: SortMemberPath is NOT settable in XAML for Toolkit 7.1.2 (WMC0011) —
+        // derive the sort key from the column Header instead.
+        _sortProp = e.Column.Header?.ToString() switch
+        {
+            "Name" => "Name", "Region" => "Region", "CPU %" => "Cpu",
+            "Memory %" => "Memory", "Uptime (d)" => "UptimeDays",
+            "Status" => "Status", _ => "Id"
+        };
         _sortAsc = e.Column.SortDirection != DataGridSortDirection.Ascending;
         e.Column.SortDirection = _sortAsc ? DataGridSortDirection.Ascending : DataGridSortDirection.Descending;
         foreach (var c in Grid.Columns.Where(c => c != e.Column)) c.SortDirection = null;

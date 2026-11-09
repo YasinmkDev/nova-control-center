@@ -23,13 +23,13 @@
         <controls:DataGrid x:Name="Grid" Grid.Row="2" AutoGenerateColumns="False" IsReadOnly="True"
             Sorting="Grid_Sorting" Visibility="Collapsed" SelectionMode="Extended">
             <controls:DataGrid.Columns>
-                <controls:DataGridTextColumn Header="ID" Binding="{Binding Id}" SortMemberPath="Id" />
-                <controls:DataGridTextColumn Header="Name" Binding="{Binding Name}" SortMemberPath="Name" Width="*" />
-                <controls:DataGridTextColumn Header="Region" Binding="{Binding Region}" SortMemberPath="Region" />
-                <controls:DataGridTextColumn Header="CPU %" Binding="{Binding Cpu}" SortMemberPath="Cpu" />
-                <controls:DataGridTextColumn Header="Memory %" Binding="{Binding Memory}" SortMemberPath="Memory" />
-                <controls:DataGridTextColumn Header="Uptime (d)" Binding="{Binding UptimeDays}" SortMemberPath="UptimeDays" />
-                <controls:DataGridTextColumn Header="Status" Binding="{Binding Status}" SortMemberPath="Status" />
+                <controls:DataGridTextColumn Header="ID" Binding="{Binding Id}" />
+                <controls:DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="*" />
+                <controls:DataGridTextColumn Header="Region" Binding="{Binding Region}" />
+                <controls:DataGridTextColumn Header="CPU %" Binding="{Binding Cpu}" />
+                <controls:DataGridTextColumn Header="Memory %" Binding="{Binding Memory}" />
+                <controls:DataGridTextColumn Header="Uptime (d)" Binding="{Binding UptimeDays}" />
+                <controls:DataGridTextColumn Header="Status" Binding="{Binding Status}" />
             </controls:DataGrid.Columns>
         </controls:DataGrid>
     </Grid>

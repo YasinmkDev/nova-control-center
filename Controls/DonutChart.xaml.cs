@@ -13,7 +13,15 @@ namespace NovaControlCenter.Controls;
 /// <summary>Donut with hover-expanding segments: each segment is a Path; PointerEntered scales it outward via a translate along its mid-angle (Composition). Segments animate in with a sweep on load.</summary>
 public sealed partial class DonutChart : UserControl
 {
-    public record Segment(string Label, double Value, Color Color);
+    // Plain class (not a record): XAML type-info code assigns Segment properties,
+    // which fails on a record's init-only properties.
+    public sealed class Segment
+    {
+        public string Label { get; set; } = "";
+        public double Value { get; set; }
+        public Color Color { get; set; }
+        public Segment(string label, double value, Color color) { Label = label; Value = value; Color = color; }
+    }
     public List<Segment> Segments { get; } = new()
     {
         new("Compute", 42, Color.FromArgb(255,108,92,231)),

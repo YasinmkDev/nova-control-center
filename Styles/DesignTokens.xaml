@@ -49,8 +49,6 @@
         <Setter Property="Padding" Value="16,10" />
     </Style>
 
-    <!-- Reusable entrance: fade + translateY. Applied in code-behind with staggered delays. -->
-    <Storyboard x:Key="EntranceStoryboard">
-        <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.45" />
-    </Storyboard>
+    <!-- Entrance animations are created in code-behind per-page (staggered delays);
+         a target-less Storyboard resource here broke XamlCompiler, so it was removed. -->
 </ResourceDictionary>

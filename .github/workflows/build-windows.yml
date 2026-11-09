@@ -11,15 +11,12 @@ jobs:
       - uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '8.0.x'
-      - name: Build + Publish (single step — separate restore/build with different platforms broke XamlCompiler)
-        # WinUI 3 REQUIRES x64 platform throughout; restore+build split with --no-restore left stale AnyCPU obj files
-        run: dotnet publish NovaControlCenter.csproj -c Release -r win-x64 --self-contained false -p:Platform=x64 -o publish
-      - name: Show XAML compiler output on failure
-        if: failure()
-        run: Get-ChildItem -Recurse obj -Filter output.json | ForEach-Object { Write-Host "== $($_.FullName)"; Get-Content $_.FullName -Raw | Select-Object -First 1 }
+      - uses: microsoft/setup-msbuild@v2
+      - name: Build with VS MSBuild (dotnet CLI hides XamlCompiler errors; MSBuild surfaces them)
+        run: msbuild NovaControlCenter.csproj /restore /p:Configuration=Release /p:Platform=x64 /p:RuntimeIdentifier=win-x64 /v:normal
       - name: Upload exe artifact
         uses: actions/upload-artifact@v4
         with:
           name: NovaControlCenter-win-x64
-          path: publish/
+          path: bin/x64/Release/net8.0-windows10.0.19041.0/win-x64/
           if-no-files-found: error

@@ -18,7 +18,7 @@ jobs:
       - name: Install Inno Setup
         run: choco install innosetup -y
       - name: Build setup.exe
-        run: & "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" installer\NovaControlCenter.iss
+        run: '& "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" installer\NovaControlCenter.iss'
       - name: Upload setup artifact
         uses: actions/upload-artifact@v4
         with:

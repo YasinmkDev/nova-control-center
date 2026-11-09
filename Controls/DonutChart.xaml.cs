@@ -1,4 +1,5 @@
 using Microsoft.UI;
+using Path = Microsoft.UI.Xaml.Shapes.Path;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
@@ -57,7 +58,7 @@ public sealed partial class DonutChart : UserControl
     {
         if (sender is not Path p || p.Tag is not Segment seg) return;
         CenterValue.Text = $"{seg.Value}%"; // centre shows hovered segment
-        var v = Microsoft.UI.Composition.ElementCompositionPreview.GetElementVisual(p);
+        var v = Microsoft.UI.Xaml.Hosting.ElementCompositionPreview.GetElementVisual(p);
         var mid = Segments.TakeWhile(s => s != seg).Sum(s => s.Value) + seg.Value / 2;
         double ang = (-90 + 360 * mid / Segments.Sum(s => s.Value)) * Math.PI / 180;
         var anim = v.Compositor.CreateVector3KeyFrameAnimation();
@@ -69,7 +70,7 @@ public sealed partial class DonutChart : UserControl
     {
         CenterValue.Text = "100%";
         if (sender is not Path p) return;
-        var v = Microsoft.UI.Composition.ElementCompositionPreview.GetElementVisual(p);
+        var v = Microsoft.UI.Xaml.Hosting.ElementCompositionPreview.GetElementVisual(p);
         var anim = v.Compositor.CreateVector3KeyFrameAnimation();
         anim.InsertKeyFrame(1f, new System.Numerics.Vector3(0, 0, 0));
         anim.Duration = TimeSpan.FromMilliseconds(200);

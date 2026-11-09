@@ -3,6 +3,8 @@ using Microsoft.UI.Composition;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Hosting;
+using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.UI.Xaml.Navigation;
 using NovaControlCenter.Services;
@@ -135,12 +137,8 @@ public sealed partial class MainWindow : Window
     }
 
     // --- Window controls ---
-    private void MinButton_Click(object sender, RoutedEventArgs e) => _appWindow.Minimize();
-    private void MaxButton_Click(object sender, RoutedEventArgs e)
-    {
-        if (_appWindow.Presenter is OverlappedPresenter p)
-            p.State = p.State == OverlappedPresenterState.Maximized ? OverlappedPresenterState.Restored : OverlappedPresenterState.Maximized;
-    }
+    private void MinButton_Click(object sender, RoutedEventArgs e) { if (_appWindow.Presenter is OverlappedPresenter p) p.Minimize(); }
+    private void MaxButton_Click(object sender, RoutedEventArgs e) { if (_appWindow.Presenter is OverlappedPresenter p) { if (p.State == OverlappedPresenterState.Maximized) p.Restore(); else p.Maximize(); } }
     private void CloseButton_Click(object sender, RoutedEventArgs e) => Close();
 
     // --- Toasts: slide in from right, auto-dismiss 4s, stack, max 3 ---

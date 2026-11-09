@@ -30,8 +30,8 @@ public static class ThemeService
         ApplicationData.Current.LocalSettings.Values[Key] = next.ToString();
 
         // Crossfade: animate opacity to 0, swap, animate back — 60fps Composition
-        var compositor = Microsoft.UI.Composition.ElementCompositionPreview.GetElementVisual(root).Compositor;
-        var visual = Microsoft.UI.Composition.ElementCompositionPreview.GetElementVisual(root);
+        var compositor = Microsoft.UI.Xaml.Hosting.ElementCompositionPreview.GetElementVisual(root).Compositor;
+        var visual = Microsoft.UI.Xaml.Hosting.ElementCompositionPreview.GetElementVisual(root);
         var fadeOut = compositor.CreateScalarKeyFrameAnimation();
         fadeOut.InsertKeyFrame(1f, 0f);
         fadeOut.Duration = System.TimeSpan.FromMilliseconds(180);

@@ -45,7 +45,10 @@ public sealed partial class LineChart : UserControl
         for (int i = 0; i < visible; i++)
             pts.Add(new Point(i * w / (Values.Count - 1), h - 12 - (Values[i] - min) / (max - min) * (h - 24)));
         // Gradient fill under line
-        var fillPts = new PointCollection(pts) { new Point(pts[^1].X, h), new Point(pts[0].X, h) };
+        var fillPts = new PointCollection();
+        foreach (var pt in pts) fillPts.Add(pt);
+        fillPts.Add(new Point(pts[^1].X, h));
+        fillPts.Add(new Point(pts[0].X, h));
         ChartCanvas.Children.Add(new Polygon
         {
             Points = fillPts,

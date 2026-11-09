@@ -11,13 +11,12 @@ jobs:
       - uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '8.0.x'
-      - name: Restore
-        run: dotnet restore NovaControlCenter.csproj
-      - name: Build
-        # WinUI 3 REQUIRES a real platform (x64) — AnyCPU breaks XamlCompiler (MSB3073, exit 1, no inner error)
-        run: dotnet build NovaControlCenter.csproj -c Release --no-restore -p:Platform=x64
-      - name: Publish unpackaged exe
+      - name: Build + Publish (single step — separate restore/build with different platforms broke XamlCompiler)
+        # WinUI 3 REQUIRES x64 platform throughout; restore+build split with --no-restore left stale AnyCPU obj files
         run: dotnet publish NovaControlCenter.csproj -c Release -r win-x64 --self-contained false -p:Platform=x64 -o publish
+      - name: Show XAML compiler output on failure
+        if: failure()
+        run: Get-ChildItem -Recurse obj -Filter output.json | ForEach-Object { Write-Host "== $($_.FullName)"; Get-Content $_.FullName -Raw | Select-Object -First 1 }
       - name: Upload exe artifact
         uses: actions/upload-artifact@v4
         with:

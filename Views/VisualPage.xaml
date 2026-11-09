@@ -1,0 +1,19 @@
+<Page x:Class="NovaControlCenter.Views.VisualPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:NovaControlCenter.Controls">
+    <Grid Padding="24">
+        <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+        <StackPanel Spacing="4">
+            <TextBlock Text="3D / Visual" FontSize="28" FontWeight="SemiBold" />
+            <TextBlock Text="Win2D GPU particle field + gradient mesh. Move your mouse — particles repel. WinUI has no native 3D scene graph; this is the closest native GPU visual (see code comment)." Opacity="0.6" TextWrapping="Wrap" />
+        </StackPanel>
+        <Border Grid.Row="1" Style="{StaticResource NovaCardStyle}" Padding="0" Margin="0,16,0,0" CornerRadius="20">
+            <controls:ParticleCanvas x:Name="Particles" />
+        </Border>
+        <StackPanel Grid.Row="2" Orientation="Horizontal" Spacing="12" Margin="0,16,0,0">
+            <TextBlock Text="Particles: 120 • 60fps target • Win2D CanvasControl" VerticalAlignment="Center" Opacity="0.6" />
+            <Button Content="Toast: visual ready" Click="Toast_Click" />
+        </StackPanel>
+    </Grid>
+</Page>

@@ -1,0 +1,52 @@
+<Page x:Class="NovaControlCenter.Views.DashboardPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:NovaControlCenter.Controls"
+    xmlns:local="using:NovaControlCenter.Views">
+    <ScrollViewer Padding="24">
+        <StackPanel x:Name="RootStack" Spacing="16">
+            <StackPanel Orientation="Horizontal" Spacing="12">
+                <TextBlock Text="Dashboard" FontSize="28" FontWeight="SemiBold" />
+                <Button Content="✦ New report" Style="{StaticResource NovaPrimaryButton}" Click="NewReport_Click" />
+                <Button Content="Show dialog" Click="ShowDialog_Click" />
+            </StackPanel>
+            <!-- 4 stat cards: staggered entrance in code-behind -->
+            <Grid x:Name="StatsGrid" ColumnSpacing="16">
+                <Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition/><ColumnDefinition/><ColumnDefinition/></Grid.ColumnDefinitions>
+                <controls:StatCard x:Name="CardRevenue" Grid.Column="0" Label="Revenue" Delta="▲ 12.4%" Hint="vs last month" Format="C0" />
+                <controls:StatCard x:Name="CardUsers" Grid.Column="1" Label="Active users" Delta="▲ 8.1%" Hint="vs last week" />
+                <controls:StatCard x:Name="CardCpu" Grid.Column="2" Label="Avg CPU" Delta="▼ 3.2%" Hint="cluster avg" Format="N1" />
+                <controls:StatCard x:Name="CardUptime" Grid.Column="3" Label="Uptime" Delta="▲ 0.02%" Hint="30 days" Format="N2" />
+            </Grid>
+            <Grid ColumnSpacing="16">
+                <Grid.ColumnDefinitions><ColumnDefinition Width="2*"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+                <Border Style="{StaticResource NovaCardStyle}">
+                    <StackPanel Spacing="8">
+                        <TextBlock Text="Live throughput" FontWeight="SemiBold" />
+                        <controls:LineChart x:Name="LiveChart" Height="180" />
+                        <TextBlock Text="Updates every 2s • draws itself on load" FontSize="12" Opacity="0.55" />
+                    </StackPanel>
+                </Border>
+                <Border Grid.Column="1" Style="{StaticResource NovaCardStyle}">
+                    <StackPanel Spacing="8" HorizontalAlignment="Center">
+                        <TextBlock Text="Resource mix" FontWeight="SemiBold" HorizontalAlignment="Center" />
+                        <controls:DonutChart x:Name="Donut" />
+                        <TextBlock Text="Hover a segment to expand it" FontSize="12" Opacity="0.55" HorizontalAlignment="Center" />
+                    </StackPanel>
+                </Border>
+            </Grid>
+            <!-- Drag & drop reorder list -->
+            <Border Style="{StaticResource NovaCardStyle}">
+                <StackPanel Spacing="8">
+                    <TextBlock Text="Priority queue — drag to reorder" FontWeight="SemiBold" />
+                    <ListView x:Name="PriorityList" CanReorderItems="True" AllowDrop="True" SelectionMode="Single">
+                        <ListViewItem Content="🔴  Deploy nova-1042 to EU-West" />
+                        <ListViewItem Content="🟡  Rotate TLS certs (expires in 6d)" />
+                        <ListViewItem Content="🟢  Nightly backup verification" />
+                        <ListViewItem Content="🔵  Review cost alert: APAC +18%" />
+                    </ListView>
+                </StackPanel>
+            </Border>
+        </StackPanel>
+    </ScrollViewer>
+</Page>

@@ -1,0 +1,36 @@
+<Page x:Class="NovaControlCenter.Views.SettingsPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <ScrollViewer Padding="24">
+        <StackPanel Spacing="16" MaxWidth="640" HorizontalAlignment="Left">
+            <TextBlock Text="Settings" FontSize="28" FontWeight="SemiBold" />
+            <Border Style="{StaticResource NovaCardStyle}">
+                <StackPanel Spacing="16">
+                    <TextBlock Text="Appearance" FontWeight="SemiBold" />
+                    <ToggleSwitch x:Name="ThemeToggle" Header="Dark theme" IsOn="True" Toggled="ThemeToggle_Toggled" />
+                    <TextBlock Text="Theme switches with a smooth crossfade (no native circular reveal in WinUI 3 — see ThemeService)." FontSize="12" Opacity="0.55" TextWrapping="Wrap" />
+                    <ComboBox x:Name="AccentCombo" Header="Accent" SelectedIndex="0" SelectionChanged="AccentCombo_SelectionChanged">
+                        <ComboBoxItem Content="Nova Violet" /><ComboBoxItem Content="Nova Cyan" /><ComboBoxItem Content="Nova Green" />
+                    </ComboBox>
+                    <Slider x:Name="ScaleSlider" Header="UI scale" Minimum="0.9" Maximum="1.2" StepFrequency="0.05" Value="1" ValueChanged="ScaleSlider_ValueChanged" />
+                    <TextBlock x:Name="ScaleText" Text="Scale: 100%" FontSize="12" Opacity="0.6" />
+                </StackPanel>
+            </Border>
+            <Border Style="{StaticResource NovaCardStyle}">
+                <StackPanel Spacing="16">
+                    <TextBlock Text="Behaviour" FontWeight="SemiBold" />
+                    <ToggleSwitch Header="Live updates (Dashboard 2s)" IsOn="True" Toggled="Live_Toggled" />
+                    <ToggleSwitch Header="Notifications" IsOn="True" />
+                    <ToggleSwitch Header="Reduce motion" Toggled="ReduceMotion_Toggled" />
+                    <Button Content="Reset to defaults" Click="Reset_Click" />
+                </StackPanel>
+            </Border>
+            <Border Style="{StaticResource NovaCardStyle}">
+                <StackPanel Spacing="8">
+                    <TextBlock Text="Keyboard" FontWeight="SemiBold" />
+                    <TextBlock Text="Tab / Shift+Tab moves focus (visible focus ring is native). Arrow keys move in lists. Alt+1–4 jumps pages via the sidebar." FontSize="13" Opacity="0.7" TextWrapping="Wrap" />
+                </StackPanel>
+            </Border>
+        </StackPanel>
+    </ScrollViewer>
+</Page>
